@@ -44,10 +44,9 @@ final class WishMakerViewController: UIViewController {
         
         // Button positioning.
         static let buttonRadius: CGFloat = 20
-        static let buttonLeading: CGFloat = 20
-        static let buttonTop: CGFloat = 20
+        static let buttonBottom: CGFloat = 15
         static let buttonWidth: CGFloat = 200
-        static let buttonHeight: CGFloat = 70
+        static let buttonHeight: CGFloat = 40
     }
     
     // MARK: - Variables
@@ -101,10 +100,10 @@ final class WishMakerViewController: UIViewController {
         configureTitle()
         // Set up the description label.
         configureDescription()
-        // Set up the button.
-        configurePresentButton()
         // // Set up the sliders.
         configureSliders()
+        // Set up the button.
+        configurePresentButton()
     }
     
     // Configures the title label.
@@ -158,7 +157,7 @@ final class WishMakerViewController: UIViewController {
         
         // Using UIView+Pin to set constraints.
         presentBtn.pinCenterX(to: view)
-        presentBtn.pinTop(to: descriptionLabel.bottomAnchor, Constants.buttonTop)
+        presentBtn.pinBottom(to: sliderStack.topAnchor, Constants.buttonBottom)
         presentBtn.setWidth(Constants.buttonWidth)
         presentBtn.setHeight(Constants.buttonHeight)
     }
