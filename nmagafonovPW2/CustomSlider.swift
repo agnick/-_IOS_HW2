@@ -26,22 +26,33 @@ final class CustomSlider: UIView {
     }
     
     // MARK: - Variables
+    // Closure.
     var valueChanged: ((Double) -> Void)?
     
+    // UI Components.
     var slider = UISlider()
     var titleView = UILabel()
     var valueView = UILabel()
     
     // MARK: - Lifecycle
-    init(title: String, min: Double, max: Double, defaultValue: Double) {
+    init(title: String, min: Double, max: Double, initValue: Double) {
         super.init(frame: .zero)
+        
+        // Set title text.
         titleView.text = title
-        valueView.text = "\(min)"
+        
+        // Set slider min, max values.
         slider.minimumValue = Float(min)
         slider.maximumValue = Float(max)
-        slider.value = Float(defaultValue)
-        valueView.text = "\(defaultValue)"
+        // Set slider value to custom initial.
+        slider.value = Float(initValue)
+        // // Add a target-action to handle value changes of the slider.
         slider.addTarget(self, action: #selector(sliderValueChanged), for: .valueChanged)
+        
+        // Set current value to custom initial.
+        valueView.text = "\(initValue)"
+        
+        // Set up the UI components.
         configureUI()
     }
     
@@ -52,26 +63,32 @@ final class CustomSlider: UIView {
     
     // MARK: - Private methods
     private func configureUI() {
+        // Adding subviews.
         addSubview(slider)
         addSubview(valueView)
         addSubview(titleView)
         
+        // Set background to white using custom hex initializer.
         backgroundColor = UIColor(hex: Constants.whiteHex)
         
+        // Using UIView+Pin to set constraints for the title.
         titleView.pinCenterX(to: self)
         titleView.pinTop(to: self, Constants.titleViewTop)
         titleView.pinLeft(to: self, Constants.titleViewLeading)
         
+        // Using UIView+Pin to set constraints for the current value.
         valueView.pinCenterX(to: self)
         valueView.pinLeft(to: self, Constants.valueViewLeading)
         valueView.pinTop(to: titleView.bottomAnchor)
         
+        // Using UIView+Pin to set constraints for the slider.
         slider.pinTop(to: valueView.bottomAnchor)
         slider.pinCenterX(to: self)
         slider.pinBottom(to: self, Constants.sliderBottom)
         slider.pinLeft(to: self, Constants.sliderLeading)
     }
     
+    // Called when the slider value changes. Updates the callback and displays the new value.
     @objc
     private func sliderValueChanged() {
         valueChanged?(Double(slider.value))

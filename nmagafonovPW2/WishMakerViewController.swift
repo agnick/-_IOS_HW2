@@ -32,17 +32,17 @@ final class WishMakerViewController: UIViewController {
         static let stackBottom: CGFloat = 40
         static let stackLeading: CGFloat = 20
         
-        // Title positioning
+        // Title positioning.
         static let titleFontSize: CGFloat = 32
         static let titleTop: CGFloat = 30
         
-        // Description positioning
+        // Description positioning.
         static let descriptionFontSize: CGFloat = 16
         static let descriptionLeading: CGFloat = 20
         static let descriptionTop: CGFloat = 20
         static let descriptionLines: Int = 0
         
-        // Button positioning
+        // Button positioning.
         static let buttonRadius: CGFloat = 20
         static let buttonLeading: CGFloat = 20
         static let buttonTop: CGFloat = 20
@@ -51,11 +51,13 @@ final class WishMakerViewController: UIViewController {
     }
     
     // MARK: - Variables
+    // UI Components.
     private let titleLabel = UILabel()
     private let descriptionLabel = UILabel()
     private let presentBtn = UIButton()
     private let sliderStack = UIStackView()
     
+    // Variables for storing color tint and transparency states.
     private var currentRed: CGFloat = 0
     private var currentGreen: CGFloat = 0
     private var currentBlue: CGFloat = 0
@@ -74,10 +76,12 @@ final class WishMakerViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // Set up the UI components when the view is loaded.
         configureUI()
     }
     
     // MARK: - Actions
+    // Toggles the visibility of the slider stack and updates the button text.
     @objc private func presentButtonPressed() {
         if sliderStack.isHidden {
             presentBtn.setTitle(Constants.buttonInactiveText, for: .normal)
@@ -89,111 +93,156 @@ final class WishMakerViewController: UIViewController {
     }
     
     // MARK: - Private methods
+    // Configures the overall UI of the view controller.
     private func configureUI() {
         view.backgroundColor = UIColor(hex: Constants.blackHex)
         
+        // Set up the title label.
         configureTitle()
+        // Set up the description label.
         configureDescription()
+        // Set up the button.
         configurePresentButton()
+        // // Set up the sliders.
         configureSliders()
     }
     
+    // Configures the title label.
     private func configureTitle() {
         view.addSubview(titleLabel)
         
         titleLabel.text = Constants.titleText
-        // Making it bold.
+        // Making the text bold.
         titleLabel.font = UIFont.boldSystemFont(ofSize: Constants.titleFontSize)
-        // Using extension from the previous homework to change color with hex number.
+        // Using an extension to change color with a hex value.
         titleLabel.textColor = UIColor(hex: Constants.whiteHex)
 
+        // Using UIView+Pin to center the title label horizontally and set its top margin.
         titleLabel.pinCenterX(to: view)
         titleLabel.pinTop(to: view.safeAreaLayoutGuide.topAnchor, Constants.titleTop)
     }
     
+    // Configures the description label.
     private func configureDescription() {
         view.addSubview(descriptionLabel)
         
         descriptionLabel.text = Constants.descriptionText
         descriptionLabel.font = UIFont.systemFont(ofSize: Constants.descriptionFontSize)
         descriptionLabel.textColor = UIColor(hex: Constants.whiteHex)
+        // Allow unlimited lines.
         descriptionLabel.numberOfLines = Constants.descriptionLines
+        // Break lines by words.
         descriptionLabel.lineBreakMode = .byWordWrapping
         
+        // Using UIView+Pin to center the description label horizontally and set its left and top margins.
         descriptionLabel.pinCenterX(to: view)
         descriptionLabel.pinLeft(to: view, Constants.descriptionLeading)
         descriptionLabel.pinTop(to: titleLabel.bottomAnchor, Constants.descriptionTop)
     }
     
+    // Configures the button that shows/hides the sliders.
     private func configurePresentButton() {
         view.addSubview(presentBtn)
         
+        // Set button corner radius.
         presentBtn.layer.cornerRadius = Constants.buttonRadius
+        // Set initial button title.
         presentBtn.setTitle(Constants.buttonInactiveText, for: .normal)
+        // Set initial button background color.
         presentBtn.backgroundColor = UIColor(hex: Constants.whiteHex)
+        // Set initial button text color.
         presentBtn.setTitleColor(UIColor(hex: Constants.blackHex), for: .normal)
     
+        // Add action for button press.
         presentBtn.addTarget(self, action: #selector(presentButtonPressed), for: .touchUpInside)
         
+        // Using UIView+Pin to set constraints.
         presentBtn.pinCenterX(to: view)
         presentBtn.pinTop(to: descriptionLabel.bottomAnchor, Constants.buttonTop)
         presentBtn.setWidth(Constants.buttonWidth)
         presentBtn.setHeight(Constants.buttonHeight)
     }
     
+    // Configures the sliders for changing the background color.
     private func configureSliders() {
-        sliderStack.axis = .vertical
         view.addSubview(sliderStack)
+        
+        // Arrange sliders vertically.
+        sliderStack.axis = .vertical
+        // Set corner radius.
         sliderStack.layer.cornerRadius = Constants.stackRadius
+        // Ensure sliders don't extend beyond stack bounds.
         sliderStack.clipsToBounds = true
         
-        let sliderRed = CustomSlider(title: Constants.red, min: Constants.sliderMin, max: Constants.sliderMax, defaultValue: Constants.sliderMin)
-        let sliderGreen = CustomSlider(title: Constants.green, min: Constants.sliderMin, max: Constants.sliderMax, defaultValue: Constants.sliderMin)
-        let sliderBlue = CustomSlider(title: Constants.blue, min: Constants.sliderMin, max: Constants.sliderMax, defaultValue: Constants.sliderMin)
-        let sliderAlpha = CustomSlider(title: Constants.alpha, min: Constants.sliderMin, max: Constants.sliderMax, defaultValue: Constants.defaultAlpha)
+        // Create sliders for each color component and alpha.
+        let sliderRed = CustomSlider(title: Constants.red, min: Constants.sliderMin, max: Constants.sliderMax, initValue: Constants.sliderMin)
+        let sliderGreen = CustomSlider(title: Constants.green, min: Constants.sliderMin, max: Constants.sliderMax, initValue: Constants.sliderMin)
+        let sliderBlue = CustomSlider(title: Constants.blue, min: Constants.sliderMin, max: Constants.sliderMax, initValue: Constants.sliderMin)
+        let sliderAlpha = CustomSlider(title: Constants.alpha, min: Constants.sliderMin, max: Constants.sliderMax, initValue: Constants.defaultAlpha)
         
+        // Add each slider to the stack view.
         for slider in [sliderRed, sliderGreen, sliderBlue, sliderAlpha] {
             sliderStack.addArrangedSubview(slider)
         }
         
+        // Using UIView+Pin to set constraints for the slider stack.
         sliderStack.pinCenterX(to: view)
         sliderStack.pinLeft(to: view, Constants.stackLeading)
         sliderStack.pinBottom(to: view, Constants.stackBottom)
         
+        // Handle value changes for each slider to update the background color.
         sliderRed.valueChanged = { [weak self] value in
+            // Prevent memory leaks by safely unwrapping `self` before using it.
             guard let self = self else { return }
+            // Change background color with new one.
             self.view.backgroundColor = UIColor(red: value, green: self.currentGreen, blue: self.currentBlue, alpha: self.currentAlpha)
+            // Save value.
             self.currentRed = value
+            // Update colors of other components.
             setOtherComponentsColor()
         }
         
         sliderGreen.valueChanged = { [weak self] value in
+            // Prevent memory leaks by safely unwrapping `self` before using it.
             guard let self = self else { return }
+            // Change background color with new one.
             self.view.backgroundColor = UIColor(red: self.currentRed, green: value, blue: self.currentBlue, alpha: self.currentAlpha)
+            // Save value.
             self.currentGreen = value
+            // Update colors of other components.
             setOtherComponentsColor()
         }
         
         sliderBlue.valueChanged = { [weak self] value in
+            // Prevent memory leaks by safely unwrapping `self` before using it.
             guard let self = self else { return }
+            // Change background color with new one.
             self.view.backgroundColor = UIColor(red: self.currentRed, green: self.currentGreen, blue: value, alpha: self.currentAlpha)
+            // Save value.
             self.currentBlue = value
+            // Update colors of other components.
             setOtherComponentsColor()
         }
         
         sliderAlpha.valueChanged = { [weak self] value in
+            // Prevent memory leaks by safely unwrapping `self` before using it.
             guard let self = self else { return }
+            // Change background color with new one.
             self.view.backgroundColor = UIColor(red: self.currentRed, green: self.currentGreen, blue: self.currentBlue, alpha: value)
+            // Save value.
             self.currentAlpha = value
         }
     }
     
+    // Updates the colors of the other UI components to provide contrast with the background.
     private func setOtherComponentsColor() {
+        // Calculate an opposite color for better contrast.
         let oppositeColor = UIColor(red: Constants.sliderMax - currentRed, green: Constants.sliderMax - currentGreen, blue: Constants.sliderMax - currentBlue, alpha: Constants.defaultAlpha)
         
         titleLabel.textColor = oppositeColor
         descriptionLabel.textColor = oppositeColor
         presentBtn.backgroundColor = oppositeColor
+        // Set button text color to match the background.
         presentBtn.setTitleColor(view.backgroundColor, for: .normal)
     }
 }
