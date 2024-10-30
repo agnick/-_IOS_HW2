@@ -35,6 +35,7 @@ final class WishMakerViewController: UIViewController {
         // Title positioning.
         static let titleFontSize: CGFloat = 32
         static let titleTop: CGFloat = 30
+        static let titleLeading: CGFloat = 20
         
         // Description positioning.
         static let descriptionFontSize: CGFloat = 16
@@ -111,6 +112,7 @@ final class WishMakerViewController: UIViewController {
         view.addSubview(titleLabel)
         
         titleLabel.text = Constants.titleText
+        titleLabel.textAlignment = .center
         // Making the text bold.
         titleLabel.font = UIFont.boldSystemFont(ofSize: Constants.titleFontSize)
         // Using an extension to change color with a hex value.
@@ -118,6 +120,7 @@ final class WishMakerViewController: UIViewController {
 
         // Using UIView+Pin to center the title label horizontally and set its top margin.
         titleLabel.pinCenterX(to: view)
+        titleLabel.pinLeft(to: view, Constants.titleLeading)
         titleLabel.pinTop(to: view.safeAreaLayoutGuide.topAnchor, Constants.titleTop)
     }
     
