@@ -20,6 +20,7 @@ final class WishMakerViewController: UIViewController {
         static let descriptionText: String = "This app will bring you jou and will fulfill three of your wishes!\n   \u{22C5} The first wish is to change the background color."
         static let buttonInactiveText: String = "Hide color slider"
         static let buttonActiveText: String = "Show color slider"
+        static let addWishButtonText: String = "My wishes"
         static let whiteHex: String = "#FFFFFF"
         static let blackHex: String = "#000000"
         static let red: String = "Red"
@@ -29,7 +30,7 @@ final class WishMakerViewController: UIViewController {
         
         // Stack positioning.
         static let stackRadius: CGFloat = 20
-        static let stackBottom: CGFloat = 40
+        static let stackBottom: CGFloat = 10
         static let stackLeading: CGFloat = 20
         
         // Title positioning.
@@ -43,19 +44,26 @@ final class WishMakerViewController: UIViewController {
         static let descriptionTop: CGFloat = 20
         static let descriptionLines: Int = 0
         
-        // Button positioning.
+        // Present Button positioning.
         static let buttonRadius: CGFloat = 20
-        static let buttonBottom: CGFloat = 15
-        static let buttonWidth: CGFloat = 200
+        static let buttonBottom: CGFloat = 10
         static let buttonHeight: CGFloat = 40
+        static let buttonSide: CGFloat = 20
+        
+        // Add wish button positioning.
+        static let addWishButtonRadius: CGFloat = 20
+        static let addWishButtonBottom: CGFloat = 15
+        static let addWishButtonHeight: CGFloat = 40
+        static let addWishButtonSide: CGFloat = 20
     }
     
     // MARK: - Variables
     // UI Components.
-    private let titleLabel = UILabel()
-    private let descriptionLabel = UILabel()
-    private let presentBtn = UIButton()
-    private let sliderStack = UIStackView()
+    private let titleLabel: UILabel = UILabel()
+    private let descriptionLabel: UILabel = UILabel()
+    private let presentBtn: UIButton = UIButton(type: .system)
+    private let addWishButton: UIButton = UIButton(type: .system)
+    private let sliderStack: UIStackView = UIStackView()
     
     // Variables for storing color tint and transparency states.
     private var currentRed: CGFloat = 0
@@ -64,15 +72,6 @@ final class WishMakerViewController: UIViewController {
     private var currentAlpha: CGFloat = 1
     
     // MARK: - Lifecycle
-    init() {
-        super.init(nibName: nil, bundle: nil)
-    }
-    
-    @available(*, unavailable)
-    required init?(coder: NSCoder) {
-        fatalError("init(parameters:) has not been implemented")
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -92,6 +91,12 @@ final class WishMakerViewController: UIViewController {
         }
     }
     
+    // Opens the WishStoringViewController to display the list of wishes.
+    @objc
+    private func addWishButtonPressed() {
+        present(WishStoringViewController(), animated: true)
+    }
+    
     // MARK: - Private methods
     // Configures the overall UI of the view controller.
     private func configureUI() {
@@ -101,7 +106,9 @@ final class WishMakerViewController: UIViewController {
         configureTitle()
         // Set up the description label.
         configureDescription()
-        // // Set up the sliders.
+        // Set up the add wish button.
+        configureAddWishButton()
+        // Set up the sliders.
         configureSliders()
         // Set up the button.
         configurePresentButton()
@@ -159,9 +166,8 @@ final class WishMakerViewController: UIViewController {
         presentBtn.addTarget(self, action: #selector(presentButtonPressed), for: .touchUpInside)
         
         // Using UIView+Pin to set constraints.
-        presentBtn.pinCenterX(to: view)
+        presentBtn.pinHorizontal(to: view, Constants.buttonSide)
         presentBtn.pinBottom(to: sliderStack.topAnchor, Constants.buttonBottom)
-        presentBtn.setWidth(Constants.buttonWidth)
         presentBtn.setHeight(Constants.buttonHeight)
     }
     
@@ -190,7 +196,7 @@ final class WishMakerViewController: UIViewController {
         // Using UIView+Pin to set constraints for the slider stack.
         sliderStack.pinCenterX(to: view)
         sliderStack.pinLeft(to: view, Constants.stackLeading)
-        sliderStack.pinBottom(to: view, Constants.stackBottom)
+        sliderStack.pinBottom(to: addWishButton.topAnchor, Constants.stackBottom)
         
         // Handle value changes for each slider to update the background color.
         sliderRed.valueChanged = { [weak self] value in
@@ -236,6 +242,29 @@ final class WishMakerViewController: UIViewController {
         }
     }
     
+    // Configures the Add Wish button.
+    private func configureAddWishButton() {
+        view.addSubview(addWishButton)
+        // Set the button's height.
+        addWishButton.setHeight(Constants.addWishButtonHeight)
+        // Using UIView+Pin to set constraints for the button.
+        addWishButton.pinHorizontal(to: view, Constants.addWishButtonSide)
+        addWishButton.pinBottom(to: view.safeAreaLayoutGuide.bottomAnchor, Constants.addWishButtonBottom)
+        
+        
+        // Set initial button background color.
+        addWishButton.backgroundColor = UIColor(hex: Constants.whiteHex)
+        // Set initial button text color.
+        addWishButton.setTitleColor(UIColor(hex: Constants.blackHex), for: .normal)
+        // Set the button's title text.
+        addWishButton.setTitle(Constants.addWishButtonText, for: .normal)
+        
+
+        addWishButton.layer.cornerRadius = Constants.addWishButtonRadius
+        // Add an action to the button, triggered when it is tapped.
+        addWishButton.addTarget(self, action: #selector(addWishButtonPressed), for: .touchUpInside)
+    }
+    
     // Updates the colors of the other UI components to provide contrast with the background.
     private func setOtherComponentsColor() {
         // Calculate an opposite color for better contrast.
@@ -243,8 +272,13 @@ final class WishMakerViewController: UIViewController {
         
         titleLabel.textColor = oppositeColor
         descriptionLabel.textColor = oppositeColor
+        
         presentBtn.backgroundColor = oppositeColor
         // Set button text color to match the background.
         presentBtn.setTitleColor(view.backgroundColor, for: .normal)
+        
+        addWishButton.backgroundColor = oppositeColor
+        // Set button text color to match the background.
+        addWishButton.setTitleColor(view.backgroundColor, for: .normal)
     }
 }
