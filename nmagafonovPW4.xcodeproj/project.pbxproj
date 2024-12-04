@@ -6,8 +6,13 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		26290E532D00BAA100D7F320 /* EventsCoreData.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 26290E512D00BAA100D7F320 /* EventsCoreData.xcdatamodeld */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		26290DE42CFF443F00D7F320 /* nmagafonovPW4.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = nmagafonovPW4.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		26290E522D00BAA100D7F320 /* EventsCoreData.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = EventsCoreData.xcdatamodel; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
@@ -45,6 +50,7 @@
 		26290DDB2CFF443F00D7F320 = {
 			isa = PBXGroup;
 			children = (
+				26290E512D00BAA100D7F320 /* EventsCoreData.xcdatamodeld */,
 				26290DE62CFF443F00D7F320 /* nmagafonovPW4 */,
 				26290DE52CFF443F00D7F320 /* Products */,
 			);
@@ -132,6 +138,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				26290E532D00BAA100D7F320 /* EventsCoreData.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,9 +155,9 @@
 				DEVELOPMENT_TEAM = 56943FL7RL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = nmagafonovPW4/Info.plist;
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Calendar access to save your events";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -176,9 +183,9 @@
 				DEVELOPMENT_TEAM = 56943FL7RL;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = nmagafonovPW4/Info.plist;
+				INFOPLIST_KEY_NSCalendarsUsageDescription = "Calendar access to save your events";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -335,6 +342,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		26290E512D00BAA100D7F320 /* EventsCoreData.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				26290E522D00BAA100D7F320 /* EventsCoreData.xcdatamodel */,
+			);
+			currentVersion = 26290E522D00BAA100D7F320 /* EventsCoreData.xcdatamodel */;
+			path = EventsCoreData.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 26290DDC2CFF443F00D7F320 /* Project object */;
 }
